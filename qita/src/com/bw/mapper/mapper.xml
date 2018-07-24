@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.dao.UserDao">
+	<select id="login" resultType="com.bw.bean.User">
+		select * from d_user where name=#{name} and pwd=#{pwd}
+	</select>
+	
+	<select id="getList" resultType="com.bw.bean.Shop">
+		select * from t_shop
+	</select>
+	
+	<delete id="toDel">
+		delete from t_shop where sid=#{sid}
+	</delete>
+</mapper>
