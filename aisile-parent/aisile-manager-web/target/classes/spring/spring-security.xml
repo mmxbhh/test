@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			xmlns:beans="http://www.springframework.org/schema/beans"	
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security.xsd">
+			<!-- 需要放行的文件 -->
+			<http pattern="/login.html" security="none"></http>
+			<http pattern="/css/**" security="none"></http>
+			<http pattern="/img/**" security="none"></http>
+			<http pattern="/js/** " security="none"></http>
+			<http pattern="/plugins/** " security="none"></http>
+<!-- 拦截页面规则 -->
+	<http use-expressions="false">
+		<intercept-url pattern="/**" access="ROLE_ADMIN"/>
+		<!-- default-target-url="/admin/index.html"成功之后要找的页面 -->
+		<!-- authentication-failure-url="/login_error.html"  错误的页面 -->
+		<!-- always-use-default-target="true" 指定了验证身份后总是跳转到 default-target-url指定的URL-->
+		<form-login login-page="/login.html" default-target-url="/admin/index.html" authentication-failure-url="/login.html" always-use-default-target="true" />
+	<!-- csrf跨站攻击默认是开启的 -->
+		<csrf disabled="true"/>
+		<!-- 退出 -->
+		<logout/>
+		<!-- 登录成功以后如果不配置的话点击里面的内容是无效果的拦截的，配置以后使里面的内容起到放行作用 -->
+		<headers>
+			<frame-options policy="SAMEORIGIN"/>
+		</headers>
+	</http>
+<!-- 认证管理器 -->
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin"  password="123" authorities="ROLE_ADMIN"/>
+				<user name="lisi"  password="123" authorities="ROLE_ADMIN"/>
+				<user name="zhangsan"  password="123" authorities="ROLE_ADMIN"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>
